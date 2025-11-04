@@ -877,6 +877,22 @@ def get_patient(patient_id):
     
     return jsonify(patinet), 200
 
+@app.route("/api/patients/personal_id/<string:personal_id>", methods = ["GET"])
+@jwt_required()
+def get_patient_by_personal_id(personal_id):
+    patient_collection = db["patients"]
+
+    patinet = patient_collection.find_one({"personal_id":personal_id})
+    if patinet is None:
+        return jsonify({"message":"Patinet not found!"}), 400
+    
+    del patinet["password"]
+    del patinet["public_key"]
+    del patinet["private_key"]
+    del patinet["health_records"]
+    
+    return jsonify(patinet), 200
+
 @app.route("/api/central-authority/<string:ca_id>", methods = ["GET"])
 @jwt_required()
 def get_central_authority(ca_id):

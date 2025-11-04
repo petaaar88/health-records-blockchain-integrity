@@ -32,7 +32,6 @@ const SearchPatients = () => {
       const data = await response.json();
 
       if (response.ok) {
-        fetchPatientDetails(data.health_records[0].health_record.patient_id);
         setOwnedHealthRecords(data);
       } else {
         if (response.status == "500") setError("Internal Error");
@@ -79,7 +78,7 @@ const SearchPatients = () => {
   const fetchPatientDetails = async (patient_id) => {
     try {
       const response = await fetch(
-        import.meta.env.VITE_API_URL + `/api/patients/${patient_id}`,
+        import.meta.env.VITE_API_URL + `/api/patients/personal_id/${patient_id}`,
         {
           method: "get",
           headers: {
@@ -107,6 +106,8 @@ const SearchPatients = () => {
 
   const handleSearching = () => {
     if (!patientPersonalID) return;
+
+    fetchPatientDetails(patientPersonalID);
 
     fetchOwnedHealthRecords();
     fetchExternalHealthRecords();

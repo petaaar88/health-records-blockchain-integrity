@@ -1,0 +1,59 @@
+version: "3.9"
+
+services:
+  client:
+    build: ./client
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:5000
+    depends_on:
+      - backend
+
+  backend:
+    build: 
+      context: "./backend"
+      dockerfile: "./server/Dockerfile"
+    ports:
+      - "5000:5000"
+    environment:
+      - DB=mongodb://database:27017/
+      - PEER_FOR_COMMUNICATION=ws://host.docker.internal:5001
+    depends_on:
+      - database
+
+  database:
+    build: "./db"
+    ports:
+      - "4000:27017"
+
+  # node-1:
+  #   build:
+  #     context: "./backend"
+  #     dockerfile: "./blockchain/Dockerfile"
+  #   ports:
+  #     - "5001:5001"
+  #   command: ["python", "run.py","5001"]
+    
+
+  # node-2:
+  #   build:
+  #     context: "./backend"
+  #     dockerfile: "./blockchain/Dockerfile"
+  #   ports:
+  #     - "5002:5002"
+  #   command: ["sh", "-c", "sleep 3 && python run.py 5002 5001"]
+  #   depends_on:
+  #     - node-1
+
+  # node-3:
+  #   build:
+  #     context: "./backend"
+  #     dockerfile: "./blockchain/Dockerfile"
+  #   ports:
+  #     - "5003:5003"
+  #   command: ["sh", "-c", "sleep 6 && python run.py 5003 5002 5001"]
+  #   depends_on:
+  #     - node-1 
+  #     - node-2
+

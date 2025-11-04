@@ -21,6 +21,7 @@ This project implements a distributed health record system using blockchain to e
   - [Run Blockchain Network](#run-blockchain-network)
   - [Run API](#run-api)
   - [Run Client](#run-client)
+- [Testing](#testing)
 - [Limitations](#limitations)
 
 ## Features
@@ -224,6 +225,8 @@ npm run dev
 ```
 Client will run on port `5173` on default.
 
+## Testing
+[demo_users.md](https://github.com/petaaar88/health-records-blockchain-integrity/tree/main/db/demo_users.md) file contains demo users for testing this system.
 
 
 ## Limitations 
